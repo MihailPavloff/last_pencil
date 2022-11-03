@@ -1,5 +1,9 @@
 import string
+import turns
+
+
 players = ['Vici', 'Friday']
+possible_values = (1, 2, 3)
 
 
 def init():
@@ -20,7 +24,7 @@ def init():
             print("The number of pencils should be positive")
             continue
         else:
-            break;
+            break
 
     print("Who will be the first (Vici, Friday):")
     while True:
@@ -36,7 +40,6 @@ def init():
     return int(amount), index
 
 
-possible_values = (1, 2, 3)
 pencil_amount, current_player = init()
 
 while pencil_amount > 0:
@@ -44,15 +47,15 @@ while pencil_amount > 0:
     print(f"{players[current_player]}'s turn:")
     taking_pencils = 0
     while True:
-        taking_pencils = input()
-        if taking_pencils not in '123':
-            print("Possible values: '1', '2' or '3'")
-            continue
-        elif int(taking_pencils) > pencil_amount:
-            print("Too many pencils were taken.")
-            continue
-        taking_pencils = int(taking_pencils)
-        break
+        if current_player == 0:
+            taking_pencils = turns.player_turn(pencil_amount)
+            if taking_pencils:
+                break
+        else:
+            taking_pencils = turns.bot_turn(pencil_amount)
+            print(taking_pencils)
+            break
+
     pencil_amount -= taking_pencils
     if pencil_amount == 0:
         winner = (current_player + 1) % 2
